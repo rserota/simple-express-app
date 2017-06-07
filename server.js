@@ -5,4 +5,5 @@ app.get('/', function(req, res){
     res.send('You have reached the internet! Welcome.')
 })
 
-app.listen(80)
+var port = process.env.PORT || 80
+app.listen(port)

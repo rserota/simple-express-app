@@ -15,6 +15,17 @@ try {
         key: fs.readFileSync('/etc/letsencrypt/live/thepasswordisdragons.com/privkey.pem'),
         cert: fs.readFileSync('/etc/letsencrypt/live/thepasswordisdragons.com/cert.pem'),
     }
+
+    app.use(function(req, res, next){
+        if ( req.protocol === 'http' ){
+            res.sendStatus('X-Forwarded-Proto', 'https')
+            res.redirect('https://' + req.headers.host + req.url)
+        }
+        else {
+            next()
+        }
+    })
+    
     var httpsServer = HTTPS.createServer(httpsConfig, app)
     httpsServer.listen(443)
 }
